@@ -1,38 +1,124 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box; /* 使padding、border、margin不影響主體物件大小 */
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica", "Apple LiGothic Medium", "Herr Von Muellerhoff",
+    "Microsoft JhengHei", sans-serif; /* 字形樣式 */
+  list-style: none; /* 移除列表的符號 */
+  text-decoration: none; /* 移除超連結的下底線 */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+nav {
+  height: 50px;
+  background-color: rgba(102, 16, 83, 0.7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.nav-info {
+  display: flex;
+  list-style: none;
+}
+.nav-route {
+  font-size: 1.3rem;
+  margin-left: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.login {
+  height: calc(100vh - 50px); /* 必須有空格 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 53px -21px rgba(43, 44, 43, 0.7);
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.wrapper {
+  width: 60%;
+  height: 75%;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0px 0px 33px -21px rgba(66, 68, 90, 1);
+  border-radius: 20px;
+}
+.other-login {
+  width: 40%;
+  height: 50%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  font-weight: 700;
+}
+.google {
+  background: red;
+}
+.facebook {
+  background: blue;
+}
+.github {
+  background: black;
+}
+.login-box {
   color: white;
+  margin-bottom: 1rem;
+  display: flex;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
 }
-
-.App-link {
-  color: #61dafb;
+.local {
+  height: 50%;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input {
+  width: 100%;
+  height: 30%;
+  border-radius: 50px;
+  border: 3px solid #777;
+  padding: 1.5rem 1.3rem;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+input:focus {
+  border: 5px solid #777;
+}
+.submit {
+  height: 30%;
+  width: 50%;
+  background-color: rgba(128, 0, 128, 0.7);
+  color: white;
+  font-weight: 700;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.or {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: gray;
+  border-radius: 50%;
+  padding: 1.5rem;
+}
+.or::after {
+  content: "------";
+  color: rgba(100, 100, 100, 0.5);
+  position: absolute;
+  display: flex;
+  transform: scale(1, 6) rotate(90deg) translateX(-5px);
+  z-index: -1;
 }
