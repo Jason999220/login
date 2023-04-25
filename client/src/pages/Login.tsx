@@ -1,4 +1,8 @@
 import React from "react";
+import Google from "../imgs/google.png";
+import Facebook from "../imgs/facebook.png";
+import Github from "../imgs/github.png";
+import Line from "../imgs/line.png";
 
 // 利用 google、facebook登入
 export default function Login() {
@@ -8,16 +12,20 @@ export default function Login() {
         {/* 第三方登入 */}
         <div className="other-login">
           <div className="google login-box">
-            {/* <img src="../imgs/googleIcon.png" alt="googleImg" /> */}
-            <p>sign up with google</p>
+            <img src={Google} alt="" />
+            <p>Login with google</p>
           </div>
           <div className="facebook login-box">
-            {/* <img src="../imgs/facebookIcon.png" alt="facebook" /> */}
-            <p>sign up with facebook</p>
+            <img src={Facebook} alt="" />
+            <p>Login with facebook</p>
           </div>
           <div className="github login-box">
-            {/* <img src="../imgs/facebookIcon.png" alt="facebook" /> */}
-            <p>sign up with github</p>
+            <img src={Github} alt="" />
+            <p>Login with github</p>
+          </div>
+          <div className="line login-box">
+            <img src={Line} alt="" />
+            <p>Login with Line</p>
           </div>
         </div>
         <div className="or">OR</div>
