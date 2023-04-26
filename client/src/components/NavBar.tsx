@@ -17,6 +17,9 @@ export default function NavBar() {
         <Link to="/" className="nav-route ">
           Logout
         </Link>
+        <Link to="/Profile" className="nav-route ">
+          Profile
+        </Link>
       </ul>
     </nav>
   );

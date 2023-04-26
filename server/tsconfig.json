@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "outDir": "build/dist",
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["es6", "dom"],
+    "sourceMap": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    // "rootDir": "src", // 會報錯 => File 'd:/Program/Side Project/login/server/user.ts' is not under 'rootDir' 'd:/Program/Side Project/login/server/src'. 'rootDir' is expected to contain all source files.
+    "noImplicitAny": true
+  }
+}
