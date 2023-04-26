@@ -10,8 +10,6 @@ import Profile from "./pages/Profile";
 import { MyContext } from "./components/Context";
 export default function App() {
   const userObj = useContext(MyContext);
-
-  console.log(userObj);
   return (
     <div>
       <NavBar />

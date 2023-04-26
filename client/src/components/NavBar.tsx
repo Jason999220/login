@@ -1,25 +1,53 @@
-import React from "react";
+import axios, { AxiosResponse } from "axios";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { MyContext } from "./Context";
+import { IUser } from "../types/type";
 
 export default function NavBar() {
+  // 使用 useContext判斷是否有使用者來限制nav的資料
+  const userObj = useContext(MyContext) as IUser;
+
+  const logout = () => {
+    axios
+      .get("http://localhost:8000/auth/logout", { withCredentials: true })
+      .then((res: AxiosResponse) => {
+        if (res.data) {
+          console.log("已登出");
+          window.location.href = "/";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <nav>
       <Link to="/" className="logo">
         Jason
       </Link>
       <ul className="nav-info">
-        <Link to="/Register" className="nav-route ">
-          Register
-        </Link>
-        <Link to="/Login" className="nav-route ">
-          Login
-        </Link>
-        <Link to="/" className="nav-route ">
-          Logout
-        </Link>
-        <Link to="/Profile" className="nav-route ">
-          Profile
-        </Link>
+        {userObj ? (
+          <>
+            {/* if have user */}
+            <Link to="/Profile" className="nav-route ">
+              Profile
+            </Link>
+            <li className="nav-route " onClick={logout}>
+              Logout
+            </li>
+          </>
+        ) : (
+          <>
+            {/* if no user */}
+            <Link to="/Register" className="nav-route ">
+              Register
+            </Link>
+            <Link to="/Login" className="nav-route ">
+              Login
+            </Link>
+          </>
+        )}
       </ul>
     </nav>
   );

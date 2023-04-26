@@ -1,4 +1,4 @@
-export interface IMongoDBUser {
+export interface IUser {
   googleId?: string;
   facebookId?: string;
   githubId?: string;

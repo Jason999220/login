@@ -220,6 +220,17 @@ app.get("/getuser", (req, res) => {
   res.send(req.user);
 });
 
+// logout
+app.get("/auth/logout", (req, res) => {
+  if (req.user) {
+    req.logout((err) => {
+      // if (err) return next(err);
+      if (err) return res.send("Successfully logged out");
+      res.redirect("/");
+    });
+  }
+});
+
 // listen
 app.listen(8000, () => {
   console.log("Server listening on port 8000");
