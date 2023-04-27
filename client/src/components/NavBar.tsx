@@ -9,6 +9,7 @@ export default function NavBar() {
   const userObj = useContext(MyContext) as IUser;
 
   const logout = () => {
+    console.log("準備登出");
     axios
       .get("http://localhost:8000/auth/logout", { withCredentials: true })
       .then((res: AxiosResponse) => {
@@ -33,9 +34,9 @@ export default function NavBar() {
             <Link to="/Profile" className="nav-route ">
               Profile
             </Link>
-            <li className="nav-route " onClick={logout}>
+            <div className="nav-route " onClick={logout}>
               Logout
-            </li>
+            </div>
           </>
         ) : (
           <>

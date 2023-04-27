@@ -8,7 +8,9 @@ export default function Profile() {
     <div>
       {userObj ? (
         <>
+          <img src={userObj.thumbnail} alt="thumbnail" />
           <div>username : {userObj.username}</div>
+          {userObj.email ? <div>userEmail : {userObj.email}</div> : null}
           <div>userID : {userObj._id}</div>
         </>
       ) : (

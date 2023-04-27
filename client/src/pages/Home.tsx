@@ -4,13 +4,6 @@ import { IUser } from "../types/type";
 
 export default function Home() {
   const userObj = useContext(MyContext) as IUser;
-  console.log(
-    "前端資料================================================================"
-  );
-  console.log(userObj);
-  console.log(
-    "前端資料================================================================"
-  );
   return (
     <div className="home">
       {userObj ? (
