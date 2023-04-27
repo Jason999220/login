@@ -1,5 +1,5 @@
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Google from "../imgs/google.png";
 import Facebook from "../imgs/facebook.png";
@@ -43,6 +43,7 @@ export default function Login() {
             <img src={Github} alt="" />
             <p>Login with github</p>
           </div>
+          {/* <Link to="/auth/github">Login with github</Link> */}
           <div className="line login-box" onClick={lineLogin}>
             <img src={Line} alt="" />
             <p>Login with Line</p>
