@@ -1,20 +1,20 @@
 // import
 import express from "express";
+const app = express();
 import mongoose from "mongoose"; // 連接資料庫
 import dovent from "dotenv";
 dovent.config(); // 用於讀取放在.env的資訊
+require("../config/passport"); // 認證時會進入
+const authRoute = require("../routes/auth-routes"); // 驗證並取得特定網址資訊
 import cors from "cors"; // 用於跨域問題
 import expressSession from "express-session";
 import passport from "passport";
-import User from "../models/user-module";
-import { IMongoDBUser } from "./types";
 
-// const authRoute = require("../routes/auth-routes");
-// const FacebookStrategy = require("passport-facebook-oauth20").Strategy;
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const GitHubStrategy = require("passport-github").Strategy;
+// import User from "../models/user-module";
+// import { IMongoDBUser } from "./types";
 
-const app = express();
+// const GoogleStrategy = require("passport-google-oauth20").Strategy;
+// const GitHubStrategy = require("passport-github").Strategy;
 
 // connect to mongoDB
 mongoose
@@ -30,12 +30,14 @@ mongoose
 
 // middleware
 app.use(express.json()); // 用於解析資料
+// cors 解決跨域問題
 app.use(
   cors({
     origin: "http://localhost:3000", // client side URL
     credentials: true, // 默認為false ，即為瀏覽器是否可以在跨域情況下將身分驗證訊息送到服務端
   })
 );
+// express-Session
 app.use(
   expressSession({
     cookie: { maxAge: 24 * 60 * 60 * 1000 },
@@ -47,22 +49,24 @@ app.use(
 
 app.use(passport.initialize()); // 用於初始化認證模組，將每次的passport的req都reset
 app.use(passport.session()); // 更改當前用戶，從client cookie取得session id 給deserialized
-// app.use("/auth", authRoute);
+app.use(express.json()); // 解析資料
+app.use("/auth", authRoute);
 
 // cookie
-passport.serializeUser((user: IMongoDBUser, done: any) => {
-  return done(null, user._id);
-});
-passport.deserializeUser((_id: string, done: any) => {
-  User.findById({ _id })
-    .then((user) => {
-      return done(null, user);
-    })
-    .catch((err) => {
-      return done(err, null);
-    });
-});
+// passport.serializeUser((user: IMongoDBUser, done: any) => {
+//   return done(null, user._id);
+// });
+// passport.deserializeUser((_id: string, done: any) => {
+//   User.findById({ _id })
+//     .then((user) => {
+//       return done(null, user);
+//     })
+//     .catch((err) => {
+//       return done(err, null);
+//     });
+// });
 
+/*
 // build google user => google strategy
 passport.use(
   new GoogleStrategy(
@@ -173,7 +177,7 @@ app.get(
     res.redirect("http://localhost:3000/profile");
   }
 );
-
+*/
 // facebook
 /*
 passport.use(

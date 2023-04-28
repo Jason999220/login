@@ -8,7 +8,19 @@
 4. facebook login
 5. location login
 
-## Question
+## 登入路徑
+
+index => passport => auth-Route
+進入 passport
+離開 passport
+進入 authRoute
+離開 authRoute
+Server listening on port 8000
+Connect to mongodb atlas successfully.
+進入 passport -> GoogleStrategy
+離開 passport -> GoogleStrategy
+New user created Jason
+進入 authRoute -> google callback
 
 ## Reference
 
