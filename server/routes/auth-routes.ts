@@ -38,5 +38,31 @@ router.get(
   }
 );
 
+router.get(
+  "/facebook",
+  passport.authenticate("facebook", {
+    scope: ["profile", "email"],
+    prompt: "select_account",
+  })
+);
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  (req: Request, res: Response) => {
+    res.redirect("http://localhost:3000/profile");
+  }
+);
+
+// logout
+router.get("/logout", (req: Request, res: Response) => {
+  if (req.user) {
+    req.logout((err) => {
+      // if (err) return next(err);
+      if (err) return res.send("Successfully logged out");
+      res.redirect("/");
+    });
+  }
+});
+
 // 匯出模組
 module.exports = router;

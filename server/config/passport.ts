@@ -1,9 +1,9 @@
 import passport from "passport";
 // get google strategy
-// const FacebookStrategy = require("passport-facebook-oauth20").Strategy;
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 
 import User from "../models/user-module";
 import { IMongoDBUser } from "../src/types";
@@ -24,6 +24,7 @@ passport.deserializeUser((_id: string, done: any) => {
     });
 });
 console.log("進入passport ");
+
 //  google strategy
 passport.use(
   new GoogleStrategy(
@@ -84,6 +85,45 @@ passport.use(
           } else {
             new User({
               githubId: profile.id,
+              username: profile.displayName,
+              thumbnail: profile.photos[0].value,
+              // email: profile.emails[0].value,
+            })
+              .save()
+              .then((newUser) => {
+                console.log(`New user created ${newUser.username}`);
+                done(null, newUser);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  )
+);
+
+// facebook
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      callbackURL: "http://localhost:8000/auth/facebook/callback",
+    },
+    async (accessToken: any, refreshToken: any, profile: any, done: any) => {
+      // check user exist our DB
+      await User.findOne({ facebookId: profile.id })
+        .then((userExist: any) => {
+          if (userExist) {
+            console.log("User already exist.");
+            done(null, userExist);
+          } else {
+            new User({
+              facebookId: profile.id,
               username: profile.displayName,
               thumbnail: profile.photos[0].value,
               // email: profile.emails[0].value,
