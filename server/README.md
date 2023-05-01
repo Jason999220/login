@@ -33,6 +33,12 @@
 
 完成第三方登入登入後，在將資料存進 DB 中
 
+## 處理本地端註冊
+
+利用 Joi 驗證
+
+## 處理本地端登入
+
 ### google developer
 
 1. into google cloud console

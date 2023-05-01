@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 const router = require("express").Router();
 const passport = require("passport");
 const { registerValidation, loginValidation } = require("../src/validation");
-const Local = require("../models/local-user-module");
+// const Local = require("../models/local-user-module");
+const jwt = require("jsonwebtoken");
+import Local from "../models/local-user-module";
 
 // 本地端註冊
 router.post("/register", async (req: Request, res: Response) => {
@@ -11,41 +13,68 @@ router.post("/register", async (req: Request, res: Response) => {
   const { error } = registerValidation(req.body);
   // if error exist
   if (error) return res.status(400).send(error.details[0].message);
-  // 檢查eamil是否存在，從DB找
-  // const emailExist = await Local.findOne({ email: req.body.email });
-  // res.send(emailExist);
+  // check if email exist，from DB find
+  const emailExist = await Local.findOne({ email: req.body.email });
   // 此email已存在
-  // if (emailExist) {
-  //   console.log("Email already exist !!");
-  //   return res.status(400).send("Email has already been registered.");
-  // }
-  // // 假如不存在就註冊並新增資料
-  new Local({
+  if (emailExist) {
+    console.log("Email already exist !!");
+    return res.status(400).send("Email has already been registered.");
+  }
+  // 假如不存在就註冊並新增資料
+  const newUser = new Local({
     email: req.body.email,
     username: req.body.username,
     password: req.body.password,
-  })
-    .then(async (newUser: any) => {
-      console.log("auth route 已新增使用者");
-      await newUser.save
-        .then((savedUser: any) => {
-          res.status(200).send({
-            msg: "Successfully saved",
-            savedObject: savedUser,
-          });
-        })
-        .catch((err: Error) => {
-          res.status(400).send(err);
-        });
-    })
-    .catch((err: Error) => {
-      res.status(400).send(err);
+  });
+  try {
+    console.log("saveing new user");
+    const savedUser = await newUser.save();
+    res.status(200).send({
+      msg: "Successfully saved",
+      savedObject: savedUser,
     });
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 // 本地端登入
-router.get("/login", (req: Request, res: Response) => {
-  console.log(req);
+router.post("/login", async (req: Request, res: Response) => {
+  // into validationn of the loginValidation
+  const { error } = loginValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  // check if user exist
+  await Local.findOne({ email: req.body.email })
+    .then((findUser: any) => {
+      // if email not exist
+      if (!findUser) return res.status(401).send("Email not exist");
+      // if email  exist
+      if (findUser) {
+        // compare the password
+        findUser.comparePassword(
+          req.body.password,
+          (err: Error, isMatch: Boolean) => {
+            // if err exist
+            if (err) return res.status(400).send(err);
+            // check isMatch
+            if (isMatch) {
+              // get JWT token
+              // set Payload
+              const tokenObj = { _id: findUser._id, email: findUser.email };
+              // set token => payload + secret
+              const token = jwt.sign(tokenObj, process.env.MY_SECRET);
+              // 將資料發送到前端
+              res.send({ successfully: true, token: "JWT " + token, findUser });
+            } else {
+              res.status(401).send("Wrong account or password.");
+            }
+          }
+        );
+      }
+    })
+    .catch((err) => {
+      return res.status(400).send(err);
+    });
 });
 
 // 第三方登入

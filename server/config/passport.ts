@@ -4,8 +4,8 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 
-// import User from "../models/other-user-module";
-const Other = require("../models/other-user-module");
+import Other from "../models/other-user-module";
+// const Other = require("../models/other-user-module"); // 用commonJS會需要加入TS不然會報錯
 
 import { IMongoDBUser } from "../src/types";
 // 帳號密碼儲存
@@ -17,7 +17,7 @@ passport.serializeUser((user: IMongoDBUser, done: any) => {
 });
 passport.deserializeUser((_id: string, done: any) => {
   Other.findById({ _id })
-    .then((user: any) => {
+    .then((user) => {
       return done(null, user);
     })
     .catch((err: Error) => {
@@ -39,7 +39,7 @@ passport.use(
       console.log("進入passport -> GoogleStrategy");
       // check user exist our DB
       await Other.findOne({ googleId: profile.id })
-        .then((userExist: any) => {
+        .then((userExist) => {
           if (userExist) {
             console.log("User already exist.");
             done(null, userExist);
@@ -51,7 +51,7 @@ passport.use(
               email: profile.emails[0].value,
             })
               .save()
-              .then((newUser: any) => {
+              .then((newUser) => {
                 console.log(`New user created ${newUser.username}`);
                 done(null, newUser);
               })
@@ -79,7 +79,7 @@ passport.use(
     async (accessToken: any, refreshToken: any, profile: any, done: any) => {
       // check user exist our DB
       await Other.findOne({ githubId: profile.id })
-        .then((userExist: any) => {
+        .then((userExist) => {
           if (userExist) {
             console.log("User already exist.");
             done(null, userExist);
@@ -91,7 +91,7 @@ passport.use(
               // email: profile.emails[0].value,
             })
               .save()
-              .then((newUser: any) => {
+              .then((newUser) => {
                 console.log(`New user created ${newUser.username}`);
                 done(null, newUser);
               })
@@ -118,7 +118,7 @@ passport.use(
     async (accessToken: any, refreshToken: any, profile: any, done: any) => {
       // check user exist our DB
       await Other.findOne({ facebookId: profile.id })
-        .then((userExist: any) => {
+        .then((userExist) => {
           if (userExist) {
             console.log("User already exist.");
             done(null, userExist);
@@ -130,7 +130,7 @@ passport.use(
               // email: profile.emails[0].value,
             })
               .save()
-              .then((newUser: any) => {
+              .then((newUser) => {
                 console.log(`New user created ${newUser.username}`);
                 done(null, newUser);
               })

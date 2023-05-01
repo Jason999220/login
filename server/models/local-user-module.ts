@@ -8,7 +8,12 @@ const localUserSchema = new mongoose.Schema({
   username: { required: true, type: String, minLength: 3, maxLength: 10 },
   email: { required: false, type: String, minLength: 3 },
   password: { required: true, type: String, minLength: 4, maxLength: 10 }, // 測試用
-  hashPassword: { required: true, type: String, minLength: 4, maxLength: 1024 },
+  hashPassword: {
+    required: false,
+    type: String,
+    minLength: 4,
+    maxLength: 1024,
+  },
   date: { required: true, type: Date, default: Date.now },
 });
 
@@ -29,12 +34,8 @@ localUserSchema.methods.comparePassword = function (
   callback: any
 ) {
   // 前者為未hash過的密碼
-  bcrypt.compare(password, this.hashpassword, (err, isMatch) => {
-    // if (err) {
-    //   return callback(err, isMatch);
-    // }
-    // callback(null, isMatch);
-    // 簡化成以下程式碼
+  bcrypt.compare(password, this.hashPassword, (err, isMatch) => {
+    // console.log(this); // 當前的user
     err ? callback(err, isMatch) : callback(null, isMatch);
   });
 };
