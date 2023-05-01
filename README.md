@@ -22,6 +22,18 @@ Connect to mongodb atlas successfully.
 New user created Jason
 進入 authRoute -> google callback
 
+## react-children props ??
+
+## facebook dev 認證 ??
+
+## Line dev 認證 ??
+
+## client and server 怎麼連接網址 ， client window.open 可用甚麼方式替代嗎 ??
+
+## express-session 設定 ，裡面的 cookies 又是甚麼參數 ??
+
+## TS 中的 as 是甚麼功能 ??
+
 ## Reference
 
 https://www.youtube.com/watch?v=cD17CYA1dck

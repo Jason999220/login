@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { MyContext } from "./Context";
 import { IUser } from "../types/type";
+import Logo from "./Logo";
 
 export default function NavBar() {
   // 使用 useContext判斷是否有使用者來限制nav的資料
@@ -25,7 +26,7 @@ export default function NavBar() {
   return (
     <nav>
       <Link to="/" className="logo">
-        Jason
+        <Logo />
       </Link>
       <ul className="nav-info">
         {userObj ? (

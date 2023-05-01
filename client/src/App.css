@@ -7,6 +7,11 @@
   list-style: none; /* 移除列表的符號 */
   text-decoration: none; /* 移除超連結的下底線 */
 }
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 img {
   width: 12%;
   margin-right: 1rem;
@@ -23,6 +28,14 @@ nav {
   align-items: center;
   justify-content: space-around;
 }
+.logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-shadow: 0.5rem 0.8rem 0.9rem rgba(10, 10, 10, 0.9);
+}
+a:hover {
+  color: white;
+}
 .nav-info {
   display: flex;
   list-style: none;
@@ -33,6 +46,7 @@ nav {
   font-weight: 600;
   cursor: pointer;
 }
+
 .login {
   min-height: calc(100vh - 50px); /* 必須有空格 */
   display: flex;

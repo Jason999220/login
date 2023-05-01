@@ -1,11 +1,12 @@
 import passport from "passport";
-// get google strategy
-
+// get  strategy
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 
-import User from "../models/user-module";
+// import User from "../models/other-user-module";
+const Other = require("../models/other-user-module");
+
 import { IMongoDBUser } from "../src/types";
 // 帳號密碼儲存
 require("dotenv").config();
@@ -15,11 +16,11 @@ passport.serializeUser((user: IMongoDBUser, done: any) => {
   return done(null, user._id);
 });
 passport.deserializeUser((_id: string, done: any) => {
-  User.findById({ _id })
-    .then((user) => {
+  Other.findById({ _id })
+    .then((user: any) => {
       return done(null, user);
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       return done(err, null);
     });
 });
@@ -37,24 +38,24 @@ passport.use(
     async (accessToken: any, refreshToken: any, profile: any, done: any) => {
       console.log("進入passport -> GoogleStrategy");
       // check user exist our DB
-      await User.findOne({ googleId: profile.id })
+      await Other.findOne({ googleId: profile.id })
         .then((userExist: any) => {
           if (userExist) {
             console.log("User already exist.");
             done(null, userExist);
           } else {
-            new User({
+            new Other({
               googleId: profile.id,
               username: profile.displayName,
               thumbnail: profile.photos[0].value,
               email: profile.emails[0].value,
             })
               .save()
-              .then((newUser) => {
+              .then((newUser: any) => {
                 console.log(`New user created ${newUser.username}`);
                 done(null, newUser);
               })
-              .catch((err) => {
+              .catch((err: Error) => {
                 console.log(err);
               });
           }
@@ -77,24 +78,24 @@ passport.use(
     },
     async (accessToken: any, refreshToken: any, profile: any, done: any) => {
       // check user exist our DB
-      await User.findOne({ githubId: profile.id })
+      await Other.findOne({ githubId: profile.id })
         .then((userExist: any) => {
           if (userExist) {
             console.log("User already exist.");
             done(null, userExist);
           } else {
-            new User({
+            new Other({
               githubId: profile.id,
               username: profile.displayName,
               thumbnail: profile.photos[0].value,
               // email: profile.emails[0].value,
             })
               .save()
-              .then((newUser) => {
+              .then((newUser: any) => {
                 console.log(`New user created ${newUser.username}`);
                 done(null, newUser);
               })
-              .catch((err) => {
+              .catch((err: Error) => {
                 console.log(err);
               });
           }
@@ -116,24 +117,24 @@ passport.use(
     },
     async (accessToken: any, refreshToken: any, profile: any, done: any) => {
       // check user exist our DB
-      await User.findOne({ facebookId: profile.id })
+      await Other.findOne({ facebookId: profile.id })
         .then((userExist: any) => {
           if (userExist) {
             console.log("User already exist.");
             done(null, userExist);
           } else {
-            new User({
+            new Other({
               facebookId: profile.id,
               username: profile.displayName,
               thumbnail: profile.photos[0].value,
               // email: profile.emails[0].value,
             })
               .save()
-              .then((newUser) => {
+              .then((newUser: any) => {
                 console.log(`New user created ${newUser.username}`);
                 done(null, newUser);
               })
-              .catch((err) => {
+              .catch((err: Error) => {
                 console.log(err);
               });
           }

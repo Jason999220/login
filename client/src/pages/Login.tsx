@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import Google from "../imgs/google.png";
@@ -8,6 +8,8 @@ import Line from "../imgs/line.png";
 
 // 利用 google、facebook登入
 export default function Login() {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   // const navigate = useNavigate();
 
   const googleLogin = () => {
@@ -25,6 +27,14 @@ export default function Login() {
   const lineLogin = () => {
     // navigate("/auth/google");
     window.open("http://localhost:8000/auth/line", "_self");
+  };
+  const handleUserName = (event: any) => {
+    // console.log(event.target.value);
+    setUserName(event.target.value);
+  };
+  const handlePassword = (event: any) => {
+    // console.log(event.target.value);
+    setPassword(event.target.value);
   };
   return (
     <div className="login">
@@ -57,12 +67,14 @@ export default function Login() {
             type="text"
             placeholder="UserName"
             required
+            onChange={handleUserName}
           />
           <input
             className="userpassword"
             type="password"
             placeholder="UserPassword"
             required
+            onChange={handlePassword}
           />
           <button type="submit" className="submit">
             Login

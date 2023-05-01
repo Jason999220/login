@@ -10,3 +10,19 @@ export interface IMongoDBUser {
   __v: number;
   _id: string;
 }
+
+export interface RegisterUser {
+  username: string;
+  email: string;
+  password: string;
+  date: Date;
+  __v: number;
+  _id: string;
+}
+export interface LoginUser {
+  email: string;
+  password: string;
+  date: Date;
+  __v: number;
+  _id: string;
+}

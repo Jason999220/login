@@ -11,6 +11,9 @@
 9. cookie-session
 10. mongoose
 11. @types/mongoose --dev
+12. jwt
+13. Joi
+14. bcrypt
 
 ## TypeScript 初始化
 
