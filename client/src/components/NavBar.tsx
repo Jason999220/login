@@ -4,13 +4,16 @@ import { Link } from "react-router-dom";
 import { MyContext } from "./Context";
 import { IUser } from "../types/type";
 import Logo from "./Logo";
+import AuthService from "../services/AuthServices";
 
 export default function NavBar() {
   // 使用 useContext判斷是否有使用者來限制nav的資料
   const userObj = useContext(MyContext) as IUser;
 
   const logout = () => {
-    console.log("準備登出");
+    // AuthService.logout();
+    // window.alert("Logout successfully, now you are redirect to the homepage.");
+    // 代替以下程式碼
     axios
       .get("http://localhost:8000/auth/logout", { withCredentials: true })
       .then((res: AxiosResponse) => {
@@ -35,17 +38,17 @@ export default function NavBar() {
             <Link to="/Profile" className="nav-route ">
               Profile
             </Link>
-            <div className="nav-route " onClick={logout}>
+            <Link to="/" className="nav-route " onClick={logout}>
               Logout
-            </div>
+            </Link>
           </>
         ) : (
           <>
             {/* if no user */}
-            <Link to="/Register" className="nav-route ">
+            <Link to="auth/Register" className="nav-route ">
               Register
             </Link>
-            <Link to="/Login" className="nav-route ">
+            <Link to="auth/Login" className="nav-route ">
               Login
             </Link>
           </>

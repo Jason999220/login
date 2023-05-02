@@ -4,10 +4,10 @@ import { RegisterUser, LoginUser } from "../src/types";
 
 // 註冊的格式
 const registerValidation = (data: RegisterUser) => {
-  console.log(data);
   const schema = Joi.object({
+    email: Joi.string().min(3).required().email(),
+    // .pattern(new RegExp("\b[w]+@[0-9a-zA-Z]"))
     username: Joi.string().min(3).max(10).required(),
-    email: Joi.string().min(3).required(),
     password: Joi.string().min(4).max(10).required(),
   });
   return schema.validate(data);
@@ -16,7 +16,7 @@ const registerValidation = (data: RegisterUser) => {
 // 登入的格式
 const loginValidation = (data: LoginUser) => {
   const schema = Joi.object({
-    email: Joi.string().min(3).required(),
+    email: Joi.string().min(3).required().email(),
     password: Joi.string().min(4).max(10).required(),
   });
   return schema.validate(data);

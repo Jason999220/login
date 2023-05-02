@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import AuthServices from "../services/AuthServices";
+import { MyContext } from "../components/Context";
 
 import Google from "../imgs/google.png";
 import Facebook from "../imgs/facebook.png";
@@ -8,9 +10,16 @@ import Line from "../imgs/line.png";
 
 // 利用 google、facebook登入
 export default function Login() {
-  const [userName, setUserName] = useState("");
+  // usecontext
+  // const obj = useContext(MyContext);
+  // console.log(obj.setUserObj);
+
+  // useState
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState<string | null>("");
+
+  const navigate = useNavigate();
 
   const googleLogin = () => {
     // navigate("/auth/google");
@@ -28,16 +37,35 @@ export default function Login() {
     // navigate("/auth/google");
     window.open("http://localhost:8000/auth/line", "_self");
   };
-  const handleUserName = (event: any) => {
+  const handleEmail = (event: any) => {
     // console.log(event.target.value);
-    setUserName(event.target.value);
+    setEmail(event.target.value);
   };
   const handlePassword = (event: any) => {
     // console.log(event.target.value);
     setPassword(event.target.value);
   };
+  const handleLogin = () => {
+    AuthServices.login(email, password)
+      .then((result) => {
+        console.log(result);
+        window.alert(
+          "Congratulations !! " +
+            result.data.findUser.username +
+            " successfully login"
+        );
+        navigate("/profile");
+      })
+      .catch((err) => {
+        // console.log(err.response.data);
+        setErrorMessage(err.response.data);
+      });
+  };
   return (
     <div className="login">
+      {errorMessage ? (
+        <div className="error-message">{errorMessage}</div>
+      ) : null}
       <div className="wrapper">
         {/* 第三方登入 */}
         <div className="other-login">
@@ -63,11 +91,11 @@ export default function Login() {
         {/* 本地端登入 */}
         <div className="local">
           <input
-            className="username"
+            className="email"
             type="text"
-            placeholder="UserName"
+            placeholder="email"
             required
-            onChange={handleUserName}
+            onChange={handleEmail}
           />
           <input
             className="userpassword"
@@ -76,7 +104,7 @@ export default function Login() {
             required
             onChange={handlePassword}
           />
-          <button type="submit" className="submit">
+          <button type="submit" className="submit" onClick={handleLogin}>
             Login
           </button>
         </div>

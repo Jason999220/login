@@ -128,6 +128,11 @@ router.get(
   }
 );
 
+// 將資料傳遞到前端
+router.get("/getCurrentUser", (req: Request, res: Response) => {
+  return res.send(req.user);
+});
+
 // logout
 router.get("/logout", (req: Request, res: Response) => {
   if (req.user) {

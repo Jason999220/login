@@ -1,21 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthService from "../services/AuthServices";
+import { MyContext } from "../components/Context";
 
 export default function Register() {
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerName, setRegisterName] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
+  const obj = useContext(MyContext);
+  let userObj = obj;
+
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>("");
+
+  const navigate = useNavigate();
 
   const handleEmail = (event: any) => {
-    setRegisterEmail(event.target.value);
+    setEmail(event.target.value);
   };
   const handleUserName = (event: any) => {
-    setRegisterName(event.target.value);
+    setUsername(event.target.value);
   };
   const handlePassword = (event: any) => {
-    setRegisterPassword(event.target.value);
+    setPassword(event.target.value);
+  };
+  const handleSubmit = async () => {
+    await AuthService.register(email, username, password)
+      .then((response: any) => {
+        setErrorMessage(null);
+        localStorage.setItem("userExist", JSON.stringify(response.data));
+        window.alert("Congratulations! You have successfully registered");
+        console.log(userObj);
+        navigate("/profile");
+      })
+      .catch((err: any) => {
+        // console.log(err.response.data);
+        setErrorMessage(err.response.data);
+      });
   };
   return (
     <div className="flex" style={{ marginTop: "2rem" }}>
+      {errorMessage ? (
+        <div className="error-message">{errorMessage}</div>
+      ) : null}
       {/* 本地端註冊 */}
       <div className="local">
         <input
@@ -39,7 +65,7 @@ export default function Register() {
           required
           onChange={handlePassword}
         />
-        <button type="submit" className="submit">
+        <button type="submit" className="submit" onClick={handleSubmit}>
           sumbit
         </button>
       </div>

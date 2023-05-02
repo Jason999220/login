@@ -11,6 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 img {
   width: 12%;
@@ -52,6 +53,7 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   box-shadow: 0px 0px 53px -21px rgba(43, 44, 43, 0.7);
 }
 .wrapper {
@@ -153,4 +155,9 @@ input:focus {
 }
 .home {
   font-size: 4rem;
+}
+.error-message {
+  font-size: 3rem;
+  color: red;
+  margin-bottom: 1rem;
 }

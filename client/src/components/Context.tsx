@@ -19,6 +19,8 @@ export default function Context(props: any) {
       });
   }, []);
   return (
-    <MyContext.Provider value={userObj}>{props.children}</MyContext.Provider>
+    <MyContext.Provider value={{ userObj: userObj, setUserObj: setUserObj }}>
+      {props.children}
+    </MyContext.Provider>
   );
 }

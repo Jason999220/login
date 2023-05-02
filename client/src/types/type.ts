@@ -4,7 +4,7 @@ export interface IUser {
   githubId?: string;
   lineId?: string;
   username: string;
-  thumbnail: string;
+  thumbnail?: string;
   date: Date;
   email?: string;
   __v: number;
